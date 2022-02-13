@@ -1,0 +1,5 @@
+node_modules
+dist
+data
+migrations
+src/utils/common.ts
