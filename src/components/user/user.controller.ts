@@ -6,6 +6,7 @@ import { NotFoundError } from '../../errors/not-found-error';
 import { JWT } from '../../utils/jwt';
 import { BadRequestError } from '../../errors/bad-request-error';
 import { Password } from '../../utils/password';
+import { emit } from 'process';
 
 const User = new UserStore('users');
 
@@ -54,9 +55,12 @@ class UserController {
   async logIn(req: Request, res: Response): Promise<void> {
     const { email, password } = req.body;
 
+    if (!email || !password) {
+      throw new BadRequestError('Missing Password or Email');
+    }
     const user = await User.findOneByEmail(email);
     if (!user) {
-      return CustomResponse.sendWithError(res, 'Invalid Credentials!', 404);
+      return CustomResponse.sendWithError(res, 'Invalid Credentials!', 400);
     }
 
     const isMatch = await Password.compare(user.password, password);

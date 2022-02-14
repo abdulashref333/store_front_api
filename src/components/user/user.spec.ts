@@ -108,4 +108,79 @@ describe('[E2E] User', function () {
       expect(user2).toEqual(data.user);
     });
   });
+  describe('Testing Login endpoint', function () {
+    beforeEach(async () => {
+      await truncateDB();
+    });
+    const LOGIN_URL = '/api/users/login';
+    // Success scenarios
+
+    it('should successed in login', async function () {
+      const respons1 = await supertest(app).post('/api/users').send({
+        firstname: 'test',
+        lastname: 'test',
+        email: 'test@test.com',
+        password: '123456',
+      });
+      expect(respons1.statusCode).toBe(201);
+
+      const respons2 = await supertest(app).post(LOGIN_URL).send({
+        email: 'test@test.com',
+        password: '123456',
+      });
+      expect(respons2.statusCode).toBe(200);
+      expect(respons2.text).toContain('user');
+      expect(respons2.text).toContain('token');
+    });
+
+    // Failuer scenarios
+
+    it('should fail with error pass or email', async function () {
+      const respons1 = await supertest(app).post('/api/users').send({
+        firstname: 'test',
+        lastname: 'test',
+        email: 'test@test.com',
+        password: '123456',
+      });
+      expect(respons1.statusCode).toBe(201);
+
+      // login with invalid password.
+      const respons2 = await supertest(app).post(LOGIN_URL).send({
+        email: 'test@test.com',
+        password: '12345',
+      });
+      expect(respons2.statusCode).toBe(400);
+      expect(respons2.text).toContain('Invalid Credentials!');
+
+      // login with Invalid email @test.com
+      const respons3 = await supertest(app).post(LOGIN_URL).send({
+        email: '@test.com',
+        password: '123456',
+      });
+      expect(respons3.statusCode).toBe(400);
+      expect(respons3.text).toContain('Invalid Credentials!');
+    });
+
+    // it('should fail without email or password', async function () {
+    //   const respons1 = await supertest(app).post('/api/users').send({
+    //     firstname: 'test',
+    //     lastname: 'test',
+    //     email: 'test@test.com',
+    //     password: '123456',
+    //   });
+    //   expect(respons1.statusCode).toBe(201);
+
+    //   const respons2 = await supertest(app).post(LOGIN_URL).send({
+    //     password: '123456',
+    //   });
+    //   expect(respons2.statusCode).toBe(400);
+    //   expect(respons2.text).toContain('Missing Password or Email');
+
+    //   const respons3 = await supertest(app).post(LOGIN_URL).send({
+    //     email: 'test@test.com',
+    //   });
+    //   expect(respons3.statusCode).toBe(400);
+    //   expect(respons3.text).toContain('Missing Password or Email');
+    // });
+  });
 });

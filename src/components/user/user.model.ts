@@ -7,7 +7,7 @@ class User extends BaseModelRepository<IUser> {
   }
 
   async findOneByEmail(email: string): Promise<IUser | null> {
-    return await this.findOne({ email }, ['id', 'firstname', 'lastname', 'email', 'created_at']);
+    return await this.findOne({ email }, ['id', 'firstname', 'lastname', 'email', 'password']);
   }
 
   async createUser(obj: Omit<IUser, 'id' | 'created_at'>): Promise<IUser | null> {

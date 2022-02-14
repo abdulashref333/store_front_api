@@ -12,6 +12,6 @@ users
   .get('/me', requireAuth, UserController.me)
   .get('/:id', [requireAuth, validateRequest(getUserValidation)], UserController.getUser)
   .post('/', UserController.signUp)
-  .post('/login');
+  .post('/login', UserController.logIn);
 
 export default users;
