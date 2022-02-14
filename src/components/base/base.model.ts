@@ -7,11 +7,11 @@ type IBaseRepository<T> = IReader<T> & IWriter<T>;
 export abstract class BaseModelRepository<T> implements IBaseRepository<T> {
   constructor(public readonly tableName: string) {}
 
-  async findAll(item: Partial<T>, select: string[]): Promise<T[]> {
+  async findAll(item?: Partial<T>, select?: string[]): Promise<T[]> {
     const result = (await Common.dbFetch(this.tableName, item, select)) as T[];
     return result;
   }
-  async findOne(item: Partial<T>, select: string[]): Promise<T | null> {
+  async findOne(item: Partial<T>, select?: string[]): Promise<T | null> {
     const result = await Common.dbFetch(this.tableName, item, select);
     if (result?.length) {
       return result[0] as T;
@@ -27,13 +27,22 @@ export abstract class BaseModelRepository<T> implements IBaseRepository<T> {
     }
     return null;
   }
+  // TODO:
   async createMany(item: Omit<T, 'id'>[]): Promise<T[]> {
     return [] as T[];
   }
-  async update(id: string, item: Partial<T>): Promise<boolean> {
-    return false;
+  async update(conditions: Partial<T>, item: Partial<T>): Promise<T | null> {
+    const result = await Common.dbUpdate(this.tableName, item, conditions);
+    if (result) {
+      return result[0];
+    }
+    return null;
   }
-  async delete(id: string): Promise<boolean> {
-    return false;
+  async delete(condition: Partial<T>): Promise<T | null> {
+    const result = await Common.dbDeletion(this.tableName, condition);
+    if (result) {
+      return result[0];
+    }
+    return null;
   }
 }
