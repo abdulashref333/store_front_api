@@ -5,8 +5,8 @@ import { getProductValidation } from './product.schema';
 const products = express.Router();
 
 products
-  .get('/products', ProductController.getAllProducts)
-  .get('/products/:id', validateRequest(getProductValidation), ProductController.getProductById)
-  .post('/products', ProductController.createProduct);
+  .get('/', ProductController.getAllProducts)
+  .get('/:id', validateRequest(getProductValidation), ProductController.getProductById)
+  .post('/', ProductController.createProduct);
 
 export default products;

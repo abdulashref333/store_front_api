@@ -51,7 +51,6 @@ describe('Product', function () {
       expect(respones1.statusCode).toBe(201);
 
       const prodcut = JSON.parse(respones1.text).data;
-      console.log({ prodcut });
 
       const respones2 = await supertest(app).get(`/api/products/${prodcut.id}`);
       expect(respones2.statusCode).toBe(200);

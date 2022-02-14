@@ -7,9 +7,11 @@ import { requireAuth } from '../../middlewares/auth';
 const users = express.Router();
 
 // TODO: me && getUseres route should be garded by admin middleware.
-users.get('/users', UserController.getUsers);
-users.get('/users/me', requireAuth, UserController.me);
-users.get('/users/:id', [requireAuth, validateRequest(getUserValidation)], UserController.getUser);
-users.post('/users', UserController.signUp);
+users
+  .get('/', UserController.getUsers)
+  .get('/me', requireAuth, UserController.me)
+  .get('/:id', [requireAuth, validateRequest(getUserValidation)], UserController.getUser)
+  .post('/', UserController.signUp)
+  .post('/login');
 
 export default users;

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { ICreateUser } from './user.interfaces';
+import { ICreateUser, IUserSerialized } from './user.interfaces';
 import UserStore from './user.model';
 import { CustomResponse } from '../../utils/custome-response';
 import { NotFoundError } from '../../errors/not-found-error';
@@ -48,6 +48,28 @@ class UserController {
       return CustomResponse.send(res, result, 'Created Successfully', 201);
     } else {
       throw new Error();
+    }
+  }
+
+  async logIn(req: Request, res: Response): Promise<void> {
+    const { email, password } = req.body;
+
+    const user = await User.findOneByEmail(email);
+    if (!user) {
+      return CustomResponse.sendWithError(res, 'Invalid Credentials!', 404);
+    }
+
+    const isMatch = await Password.compare(user.password, password);
+    if (isMatch) {
+      const token = JWT.sign(user);
+
+      const userSerialization = user as IUserSerialized;
+      userSerialization.password = undefined;
+
+      const result = { user: userSerialization, token };
+      CustomResponse.send(res, result, `Welcome Back, ${user.firstname}`);
+    } else {
+      return CustomResponse.sendWithError(res, 'Invalid Credentials!', 400);
     }
   }
 }

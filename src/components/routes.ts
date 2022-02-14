@@ -4,7 +4,7 @@ import porductRoutes from './product/product.routes';
 
 const apiRouter = express.Router();
 
-apiRouter.use(userRouter);
-apiRouter.use(porductRoutes);
+apiRouter.use('/users', userRouter);
+apiRouter.use('/products', porductRoutes);
 
 export default apiRouter;
