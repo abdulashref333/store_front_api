@@ -25,7 +25,7 @@ export const currentUser = async (req: Request, res: Response, next: NextFunctio
   const token = req.headers.authorization?.split(' ')[1];
   const userPayload = jwt.verify(token, process.env.JWT_KEY as string) as UserPayload;
 
-  const user = await User.findOneById(userPayload.id);
+  const user = await User.findOneById(parseInt(userPayload.id as string));
   if (!user) {
     return next();
   }

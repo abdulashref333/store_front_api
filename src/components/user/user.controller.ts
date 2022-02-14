@@ -11,7 +11,7 @@ const User = new UserStore('users');
 
 class UserController {
   async getUser(req: Request, res: Response) {
-    const user = await User.findOneById(req.params.id as string);
+    const user = await User.findOneById(parseInt(req.params.id as string));
     if (!user) {
       throw new NotFoundError('User Not Found!');
     }

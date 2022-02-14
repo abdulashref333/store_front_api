@@ -11,8 +11,8 @@ export abstract class BaseModelRepository<T> implements IBaseRepository<T> {
     const result = (await Common.dbFetch(this.tableName, item, select)) as T[];
     return result;
   }
-  async findOne(id: string | Partial<T>, select: string[]): Promise<T | null> {
-    const result = await Common.dbFetch(this.tableName, { id }, select);
+  async findOne(item: Partial<T>, select: string[]): Promise<T | null> {
+    const result = await Common.dbFetch(this.tableName, item, select);
     if (result?.length) {
       return result[0] as T;
     } else {

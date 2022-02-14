@@ -5,7 +5,6 @@ class Common {
   static async dbFetch(table: string, conditions: any = null, selections: any = null) {
     try {
       let query, replacements;
-
       const select = selections ? `${selections.join(', ')}` : '*';
 
       if (conditions) {
@@ -46,6 +45,27 @@ class Common {
       return Array.from(rows);
     } catch (error) {
       Logger.error('DB ERROR: ', error);
+    }
+  }
+
+  // Truncate all the tables in the database whiche means delete the data inside tables not the table itself.
+  static async dbTruncate() {
+    try {
+      const cn = await Client.connect();
+
+      const { rows } = await cn.query("SELECT * FROM information_schema.tables WHERE table_schema = 'public';");
+      // console.log(tables);
+      const tablesNames = rows.map((t: any) => t.table_name).filter((tableName: string) => tableName !== 'migrations');
+
+      let finalQuery = '';
+
+      tablesNames.forEach((tableName: string) => {
+        finalQuery += `TRUNCATE TABLE ${tableName} CASCADE; `;
+      });
+
+      return await cn.query(finalQuery);
+    } catch (err) {
+      Logger.error('SEQUELIZE ERROR: ', err);
     }
   }
 }

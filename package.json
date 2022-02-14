@@ -13,7 +13,7 @@
     "migrate:reset": "db-migrate reset",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
-    "test": "export NODE_ENV=test && npm run migrate:up > /dev/null && jasmine-ts && npm run migrate:reset > /dev/null"
+    "test": "export ENV=test && db-migrate up --env test > /dev/null && jasmine-ts && db-migrate down --env test > /dev/null"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
