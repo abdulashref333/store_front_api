@@ -10,7 +10,7 @@ import { Password } from '../../utils/password';
 const User = new UserStore('users');
 
 class UserController {
-  async getUser(req: Request, res: Response) {
+  async getUser(req: Request, res: Response): Promise<void> {
     const user = await User.findOneById(parseInt(req.params.id as string));
     if (!user) {
       throw new NotFoundError('User Not Found!');
@@ -18,7 +18,7 @@ class UserController {
     CustomResponse.send(res, { user });
   }
 
-  async me(req: Request, res: Response) {
+  async me(req: Request, res: Response): Promise<void> {
     if (!req.user) {
       throw new NotFoundError('Please sign up');
     }
@@ -26,7 +26,7 @@ class UserController {
   }
   async getUsers(req: Request, res: Response) {}
 
-  async signUp(req: Request, res: Response) {
+  async signUp(req: Request, res: Response): Promise<void> {
     const { firstname, lastname, email, password } = req.body;
 
     const existingUser = await User.findOneByEmail(email);
