@@ -32,17 +32,17 @@ export abstract class BaseModelRepository<T> implements IBaseRepository<T> {
     return [] as T[];
   }
   async update(conditions: Partial<T>, item: Partial<T>): Promise<T | null> {
-    const result = await Common.dbUpdate(this.tableName, item, conditions);
+    const result = await Common.dbUpdate(this.tableName, conditions, item);
     if (result) {
       return result[0];
     }
     return null;
   }
-  async delete(condition: Partial<T>): Promise<T | null> {
+  async delete(condition: Partial<T>): Promise<boolean> {
     const result = await Common.dbDeletion(this.tableName, condition);
     if (result) {
-      return result[0];
+      return result;
     }
-    return null;
+    return false;
   }
 }
