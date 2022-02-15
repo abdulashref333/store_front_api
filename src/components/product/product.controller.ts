@@ -35,6 +35,18 @@ class ProductController {
       throw new Error('Something Went Wrong Try again.');
     }
   }
+  async updateProduct(req: Request, res: Response): Promise<void> {
+    const result = await Product.update({ id: parseInt(req.params.id) }, req.body);
+    if (result) {
+      CustomResponse.send(res, result);
+    } else {
+      CustomResponse.sendWithError(res, 'Order Not Found');
+    }
+  }
+  async deleteProduct(req: Request, res: Response): Promise<void> {
+    const result = await Product.delete({ id: parseInt(req.params.id) });
+    CustomResponse.send(res, result);
+  }
 }
 
 export default new ProductController();

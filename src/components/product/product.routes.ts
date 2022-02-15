@@ -6,7 +6,13 @@ const products = express.Router();
 
 products
   .get('/', ProductController.getAllProducts)
-  .get('/:id', validateRequest(getProductValidation), ProductController.getProductById)
+
   .post('/', ProductController.createProduct);
+
+products.use(validateRequest(getProductValidation));
+products
+  .get('/:id', ProductController.getProductById)
+  .patch('/:id', ProductController.updateProduct)
+  .delete('/:id', ProductController.deleteProduct);
 
 export default products;
