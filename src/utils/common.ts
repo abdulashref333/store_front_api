@@ -62,8 +62,8 @@ class Common {
       const query = `
                   UPDATE ${table} SET ${Object.keys(data).map((k, i) => `${k} = \$${i + 1}`)}
                   WHERE ${Object.keys(conditions)
-                    .map((k, i) => `${k} = \$${dataLength + i}`)
-                    .join(' AND ')};
+                    .map((k, i) => `${k} = \$${dataLength + i + 1}`)
+                    .join(' AND ')} RETURNING *;
                 `;
       const { rows } = await cn.query(query, [...Object.values(data), ...Object.values(conditions)]);
 
@@ -77,7 +77,7 @@ class Common {
 
   // Any is used here because we can't determine the object structure ahead
   // as this is used for the deletion of different models
-  static async dbDeletion(table: string, conditions: any) {
+  static async dbDeletion(table: string, conditions: any): Promise<boolean | undefined> {
     try {
       const cn = await Client.connect();
 
@@ -86,13 +86,12 @@ class Common {
           DELETE FROM ${table}
           WHERE ${Object.keys(conditions)
             .map((k, i) => `${k} = \$${i + 1}`)
-            .join(' AND ')};
+            .join(' AND ')} RETURNING *;
         `,
         [...Object.values(conditions)],
       );
       cn.release();
-
-      return Array.from(rows);
+      return rows.length > 0;
     } catch (err) {
       Logger.error('DB ERROR: ', err);
     }
