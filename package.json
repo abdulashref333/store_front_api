@@ -13,6 +13,7 @@
     "migrate:reset": "db-migrate reset",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
+    "component":"./component.sh",
     "test": "export ENV=test PORT=3001 && db-migrate up --env test > /dev/null && jasmine-ts && db-migrate reset --env test > /dev/null"
   },
   "dependencies": {
