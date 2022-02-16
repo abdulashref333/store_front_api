@@ -16,7 +16,7 @@ describe('[E2E] User', function () {
         firstname: 'test',
         lastname: 'test',
         email: 'test@test.com',
-        password: '123456',
+        password: '12345678',
       });
       expect(response.statusCode).toBe(201);
     });
@@ -28,7 +28,7 @@ describe('[E2E] User', function () {
         firstname: 'test',
         lastname: 'test',
         email: 'test@test.com',
-        password: '123456',
+        password: '12345678',
       });
       expect(createUser1Response.statusCode).toBe(201);
 
@@ -37,7 +37,7 @@ describe('[E2E] User', function () {
         firstname: 'test',
         lastname: 'test',
         email: 'test@test.com',
-        password: '123456',
+        password: '12345678',
       });
       expect(createUser2Response.statusCode).toBe(400);
     });
@@ -53,7 +53,7 @@ describe('[E2E] User', function () {
         firstname: 'test',
         lastname: 'test',
         email: 'test@test.com',
-        password: '123456',
+        password: '12345678',
       });
       expect(createUser1Response.statusCode).toBe(201);
 
@@ -66,7 +66,7 @@ describe('[E2E] User', function () {
           firstname: 'test',
           lastname: 'test',
           email: 'test@test.com',
-          password: '123456',
+          password: '12345678',
         });
       expect(createUser2Response.statusCode).toBe(200);
     });
@@ -77,7 +77,7 @@ describe('[E2E] User', function () {
         firstname: 'test',
         lastname: 'test',
         email: 'test@test.com',
-        password: '123456',
+        password: '12345678',
       });
       expect(createUser2Response.statusCode).toBe(401);
     });
@@ -93,7 +93,7 @@ describe('[E2E] User', function () {
         firstname: 'test',
         lastname: 'test',
         email: 'test@test.com',
-        password: '123456',
+        password: '12345678',
       });
       expect(response1.statusCode).toBe(201);
 
@@ -120,13 +120,13 @@ describe('[E2E] User', function () {
         firstname: 'test',
         lastname: 'test',
         email: 'test@test.com',
-        password: '123456',
+        password: '12345678',
       });
       expect(respons1.statusCode).toBe(201);
 
       const respons2 = await supertest(app).post(LOGIN_URL).send({
         email: 'test@test.com',
-        password: '123456',
+        password: '12345678',
       });
       expect(respons2.statusCode).toBe(200);
       expect(respons2.text).toContain('user');
@@ -140,22 +140,22 @@ describe('[E2E] User', function () {
         firstname: 'test',
         lastname: 'test',
         email: 'test@test.com',
-        password: '123456',
+        password: '12345678',
       });
       expect(respons1.statusCode).toBe(201);
 
       // login with invalid password.
       const respons2 = await supertest(app).post(LOGIN_URL).send({
         email: 'test@test.com',
-        password: '12345',
+        password: '12345678ee',
       });
       expect(respons2.statusCode).toBe(400);
       expect(respons2.text).toContain('Invalid Credentials!');
 
       // login with Invalid email @test.com
       const respons3 = await supertest(app).post(LOGIN_URL).send({
-        email: '@test.com',
-        password: '123456',
+        email: 'test22@test.com',
+        password: '12345678',
       });
       expect(respons3.statusCode).toBe(400);
       expect(respons3.text).toContain('Invalid Credentials!');

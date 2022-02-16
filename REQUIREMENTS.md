@@ -2,7 +2,7 @@
 
 ⭕ YOU CAN ACCESS THE SERVER IN localhost:3000
 ```Base URL
-http://localhost
+http://localhost:3000/api/
 ```
 
 &nbsp;
@@ -10,7 +10,7 @@ http://localhost
 |            Routes             | Method |          Description          |        Schema                    |
 | :---------------------------: | :----: | :---------------------------: | :---------------------------:    |
 |                               | Users  
-|      /api/users               |  POST  |        Register a User        |
+|      /api/users               |  POST  |        Register a User        |{firstname: string, lastname: string, email: string, password: string}
 |      /api/users/login         |  POST  |         Login A user          |{email:string, password:"string"} |
 |                               | Products  
 |         /api/products         |  GET   |         Get Products          |
@@ -21,11 +21,11 @@ http://localhost
 |                               | Orders  
 |      /api/orders              |  GET   |          Gets Order           |
 |      /api/orders/:id          |  GET   | Get Individual Order Detailes |
-|       /api/orders             |  POST  |     Add new order             |{customer_id:number, total: number, order_status: string, payment_type: string}
+|       /api/orders             |  POST  |     Add new order             |{customer_id: number, total: number, order_status: string, payment_type: string}
 |       /api/orders/:id         | PATCH  |      Update Order             |
 |       /api/orders/:id         | DELETE |      Delete Order             |
-|   /api/orders/products        | POST   |   add products to order       |
-|     /api/orders/products/:pid | POST   |   add product to order        |
+|   /api/orders/products        | POST   |   add products to order       |{products: [{product_id: number, quantity: number}]}
+|     /api/orders/products/:pid | POST   |   add product to order        |{quantity: number}
 
 &nbsp;
 
