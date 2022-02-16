@@ -16,6 +16,11 @@ class UserController {
     if (!user) {
       throw new NotFoundError('User Not Found!');
     }
+    if (req.user && req.user.email === 'Admin') {
+    }
+    if (req.user && req.user.id !== user.id) {
+      return CustomResponse.sendWithoutData(res, 'Not authorize!', 401);
+    }
     CustomResponse.send(res, { user });
   }
 

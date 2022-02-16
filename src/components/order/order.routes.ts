@@ -1,4 +1,5 @@
 import express from 'express';
+import { requireAuth } from '../../middlewares/auth';
 import { validateRequest } from '../../middlewares/validate-request';
 import OrderController from './order.controller';
 import {
@@ -9,6 +10,7 @@ import {
 } from './order.schema';
 const orders = express.Router();
 
+orders.use(requireAuth);
 orders
   .get('/', OrderController.getAllOrders)
   .post('/', validateRequest(addOrderValidation), OrderController.createOrder)

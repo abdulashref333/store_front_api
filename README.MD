@@ -71,6 +71,8 @@ http://localhost:3000/api/
 |                               | Users  
 |      /api/users               |  POST  |        Register a User        |{firstname: string, lastname: string, email: string, password: string}
 |      /api/users/login         |  POST  |         Login A user          |{email:string, password:"string"} |
+|      /api/users/me            |  GET   |       Get A user profile      |                                  |
+|      /api/users/:id           |  GET   |       Get A user By Id        |                                  |
 |                               | Products  
 |         /api/products         |  GET   |         Get Products          |
 |      /api/products/:id        |  GET   |    Get Individual product     |
@@ -87,5 +89,8 @@ http://localhost:3000/api/
 |     /api/orders/products/:pid | POST   |   add product to order        |{quantity: number}
 
 &nbsp;
+### /api/users/:id  or /api/users/me 
+- You should provide a Bearer token in authorization header.
+
 &nbsp;
 ### Please look at REQUIRMENT.md file to see the API routes.

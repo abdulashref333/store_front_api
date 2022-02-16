@@ -122,21 +122,26 @@ class Common {
 
   // Truncate all the tables in the database
   //Truncate means delete the data inside tables not the table itself.
-  static async dbTruncate() {
+  static async dbTruncate(table_name?: string) {
     try {
       const cn = await Client.connect();
+      if (!table_name) {
+        const { rows } = await cn.query("SELECT * FROM information_schema.tables WHERE table_schema = 'public';");
+        // console.log('i am here');
+        const tablesNames = rows
+          .map((t: any) => t.table_name)
+          .filter((tableName: string) => tableName !== 'migrations');
 
-      const { rows } = await cn.query("SELECT * FROM information_schema.tables WHERE table_schema = 'public';");
-      // console.log(tables);
-      const tablesNames = rows.map((t: any) => t.table_name).filter((tableName: string) => tableName !== 'migrations');
+        let finalQuery = '';
 
-      let finalQuery = '';
+        tablesNames.forEach((tableName: string) => {
+          finalQuery += `TRUNCATE TABLE ${tableName} CASCADE; `;
+        });
 
-      tablesNames.forEach((tableName: string) => {
-        finalQuery += `TRUNCATE TABLE ${tableName} CASCADE; `;
-      });
-
-      return await cn.query(finalQuery);
+        return await cn.query(finalQuery);
+      } else {
+        return await cn.query(`TRUNCATE TABLE ${table_name} CASCADE;`);
+      }
     } catch (err) {
       Logger.error('SEQUELIZE ERROR: ', err);
     }

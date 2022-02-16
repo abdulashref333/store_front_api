@@ -2,8 +2,8 @@ import supertest from 'supertest';
 import app from '../../app';
 import Common from '../../src/utils/common';
 
-const truncateDB = async () => {
-  await Common.dbTruncate();
+const truncateDB = async (table?: string) => {
+  await Common.dbTruncate(table);
 };
 
 const signup = async () => {
