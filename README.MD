@@ -90,10 +90,10 @@ http://localhost:3000/api/
 
 &nbsp;
 ### Routes that need a token as shown below :  
-- /api/users/:id 
-- /api/users/me 
-- /api/product/:id (DELETE - post - PATCH) methods 
-- All orders endpoints withe all methods (POST - GET - PATCH - DELETE) 
+- /api/users/:id > (GET)
+- /api/users/me > (GET)
+- /api/product/:id > (DELETE - post - PATCH) methods 
+- All orders endpoints withe all methods > (POST - GET - PATCH - DELETE) 
 - You should provide a Bearer token in authorization header as shown below.
 
 ![file_structure](authorization.png)
