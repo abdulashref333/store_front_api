@@ -76,12 +76,12 @@ http://localhost:3000/api/
 |      /api/products/:id        |  GET   |    Get Individual product     |
 |     /api/product/:id          | DELETE |       Delete A Product        |
 |      /api/products            |  POST  |       Insert A Product        |{price: number, title: string, summary:string, image_url:string}|
-|      /api/products/:id        | PATCH  |        Update Product         |
+|      /api/products/:id        | PATCH  |        Update Product         | it could be the same fields as post request or less
 |                               | Orders  
 |      /api/orders              |  GET   |          Gets Order           |
 |      /api/orders/:id          |  GET   | Get Individual Order Detailes |
 |       /api/orders             |  POST  |     Add new order             |{customer_id: number, total: number, order_status: string, payment_type: string}
-|       /api/orders/:id         | PATCH  |      Update Order             |
+|       /api/orders/:id         | PATCH  |      Update Order             | it could be the same fields as post request or less
 |       /api/orders/:id         | DELETE |      Delete Order             |
 |   /api/orders/products        | POST   |   add products to order       |{products: [{product_id: number, quantity: number}]}
 |     /api/orders/products/:pid | POST   |   add product to order        |{quantity: number}
