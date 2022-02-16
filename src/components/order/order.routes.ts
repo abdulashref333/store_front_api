@@ -1,7 +1,12 @@
 import express from 'express';
 import { validateRequest } from '../../middlewares/validate-request';
 import OrderController from './order.controller';
-import { getOrderValidation, addProductValidation, addOrderValidation } from './order.schema';
+import {
+  getOrderValidation,
+  addProductValidation,
+  addOrderValidation,
+  addOrderProductsValidation,
+} from './order.schema';
 const orders = express.Router();
 
 orders
@@ -12,7 +17,7 @@ orders
   .delete('/:id', validateRequest(getOrderValidation), OrderController.deleteOrder)
 
   // Products
-  .post('/:id/products', validateRequest(getOrderValidation), OrderController.addProducts)
+  .post('/:id/products', validateRequest(addOrderProductsValidation), OrderController.addProducts)
   .post('/:id/products/:pid', validateRequest(addProductValidation), OrderController.addProduct);
 
 export default orders;

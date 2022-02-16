@@ -207,6 +207,58 @@ describe('Orders', function () {
       expect(res.statusCode).toBe(201);
     });
   });
+
+  describe('Testing addProducts endpoint', function () {
+    beforeEach(async () => {
+      await truncateDB();
+      const userRes = await Common.dbInsert('users', {
+        firstname: 'test',
+        lastname: 'test',
+        email: 'test@test.com',
+        password: 'password123',
+      });
+      user = userRes ? userRes[0] : {};
+    });
+
+    it('should add products ', async function () {
+      const respones1 = await supertest(app).post(ORDER_URL).send({
+        customer_id: user.id,
+        total: 22,
+        order_status: 'pending',
+        payment_type: 'paypal',
+      });
+      expect(respones1.statusCode).toBe(201);
+
+      const respones2 = await supertest(app).post('/api/products').send({
+        title: 'test product',
+        summary: 'nice test product',
+        price: 22.4,
+        image_url: 'example.com',
+      });
+      expect(respones2.statusCode).toBe(201);
+
+      const respones3 = await supertest(app).post('/api/products').send({
+        title: 'test2 product',
+        summary: 'nice test2 product',
+        price: 223.4,
+        image_url: 'example2.com',
+      });
+      expect(respones3.statusCode).toBe(201);
+      const order = JSON.parse(respones1.text).data;
+      const product1 = JSON.parse(respones2.text).data;
+      const product2 = JSON.parse(respones3.text).data;
+
+      const res = await supertest(app)
+        .post(`${ORDER_URL}/${order.id}/products`)
+        .send({
+          products: [
+            { product_id: product1.id, quantity: 3 },
+            { product_id: product2.id, quantity: 5 },
+          ],
+        });
+      expect(res.statusCode).toBe(201);
+    });
+  });
 });
 
 /*

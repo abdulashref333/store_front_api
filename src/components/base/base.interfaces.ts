@@ -1,6 +1,6 @@
 export interface IWriter<T> {
   create(item: Omit<T, 'id' | 'created_at'>): Promise<T | null>;
-  createMany(item: Omit<T, 'id'>[]): Promise<T[]>;
+  createMany(item: Omit<T, 'id' | 'created_at'>[]): Promise<T[] | null>;
   update(con: Partial<T>, item: Partial<T>): Promise<T | null>;
   delete(con: Partial<T>): Promise<boolean>;
 }

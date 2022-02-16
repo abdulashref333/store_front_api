@@ -27,12 +27,12 @@ export abstract class BaseModelRepository<T> implements IBaseRepository<T> {
     }
     return null;
   }
-  async createMany(item: Omit<T, 'id'>[]): Promise<T[]> {
-    const result = await Common.dbInsertMany(this.tableName, item);
+  async createMany(items: Omit<T, 'id' | 'created_at'>[]): Promise<T[] | null> {
+    const result = await Common.dbInsertMany(this.tableName, items);
     if (result && result.length) {
       return result;
     }
-    return [] as T[];
+    return null;
   }
   async update(conditions: Partial<T>, item: Partial<T>): Promise<T | null> {
     const result = await Common.dbUpdate(this.tableName, conditions, item);

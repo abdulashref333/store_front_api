@@ -1,4 +1,4 @@
-import Joi from 'joi';
+import Joi, { number } from 'joi';
 import { IValidationSchema } from '../../utils/joi.interfaces';
 
 export const getOrderValidation: IValidationSchema = {
@@ -23,5 +23,17 @@ export const addOrderValidation: IValidationSchema = {
     total: Joi.number().required(),
     order_status: Joi.string().required(),
     payment_type: Joi.string().required(),
+  }).required(),
+};
+
+export const addOrderProductsValidation: IValidationSchema = {
+  params: Joi.object({
+    id: Joi.number().required(),
+  }).required(),
+  body: Joi.object({
+    products: Joi.array().items({
+      product_id: Joi.number().required(),
+      quantity: Joi.number().required(),
+    }),
   }).required(),
 };

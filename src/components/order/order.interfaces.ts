@@ -21,3 +21,9 @@ export interface IOrderProduct {
   quantity: number;
   created_at: string;
 }
+
+export interface ICreateOrderProduct {
+  product_id: number;
+  quantity: number;
+  order_id: number;
+}

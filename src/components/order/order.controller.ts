@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
+import { kill } from 'process';
 import { CustomResponse } from '../../utils/custome-response';
-import { ICreateOrder } from './order.interfaces';
+import { ICreateOrder, ICreateOrderProduct } from './order.interfaces';
 import Order from './order.model';
 import OrderProdcut from './order_product.model';
 class OrderController {
@@ -60,7 +61,13 @@ class OrderController {
   }
   async addProducts(req: Request, res: Response): Promise<void> {
     const order_id = parseInt(req.params.id);
-    const { product_ids } = req.body;
+    const products: ICreateOrderProduct[] = req.body.products.map((k: ICreateOrderProduct) => ({ ...k, order_id }));
+    const result = await OrderProdcut.createMany(products);
+    if (result) {
+      CustomResponse.send(res, result, 'products successfully add to order', 201);
+    } else {
+      throw new Error();
+    }
   }
 }
 export default new OrderController();
