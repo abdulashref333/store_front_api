@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { CustomResponse } from '../../utils/custome-response';
 import { ICreateOrder } from './order.interfaces';
 import Order from './order.model';
-
+import OrderProdcut from './order_product.model';
 class OrderController {
   async getAllOrders(req: Request, res: Response): Promise<void> {
     const result = await Order.findAll();
@@ -44,6 +44,23 @@ class OrderController {
   async deleteOrder(req: Request, res: Response): Promise<void> {
     const result = await Order.delete({ id: parseInt(req.params.id) });
     CustomResponse.send(res, result);
+  }
+
+  async addProduct(req: Request, res: Response): Promise<void> {
+    const order_id = parseInt(req.params.id);
+    const product_id = parseInt(req.params.pid);
+    const { quantity } = req.body;
+
+    const result = await OrderProdcut.addProduct({ order_id, product_id, quantity });
+    if (result) {
+      CustomResponse.send(res, result, 'Added Successfully', 201);
+    } else {
+      CustomResponse.sendWithError(res, 'something went wrong');
+    }
+  }
+  async addProducts(req: Request, res: Response): Promise<void> {
+    const order_id = parseInt(req.params.id);
+    const { product_ids } = req.body;
   }
 }
 export default new OrderController();

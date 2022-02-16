@@ -80,6 +80,24 @@ describe('Testing Utils!', function () {
       expect(noUser?.length).toBe(0);
     });
 
+    it('should insert many objects at once', async function () {
+      const res = await Common.dbInsertMany('users', [
+        {
+          firstname: 'test',
+          lastname: 'test',
+          email: 'test2@test.com',
+          password: 'password123',
+        },
+        {
+          firstname: 'test',
+          lastname: 'test',
+          email: 'test3@test.com',
+          password: 'password123',
+        },
+      ]);
+      console.log({ res });
+      expect(res?.length).toBe(2);
+    });
     // Failure Scenarios.
   });
 });

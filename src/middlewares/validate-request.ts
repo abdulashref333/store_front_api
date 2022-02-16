@@ -1,37 +1,31 @@
 import { Request, Response, NextFunction } from 'express';
 import { IValidationSchema, JoiRequestValidationError } from '../utils/joi.interfaces';
+import Logger from './logger';
 
 export function validateRequest(schema: IValidationSchema) {
-
-  return async(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) => {
-
+  return async (req: Request, res: Response, next: NextFunction) => {
     const { headers, query, params, body } = req;
 
-    try{
-      if(schema.headers){
+    try {
+      if (schema.headers) {
         await schema.headers.validateAsync(headers);
       }
-      if(schema.query){
+      if (schema.query) {
         await schema.query.validateAsync(query);
       }
-      if(schema.params){
+      if (schema.params) {
         await schema.params.validateAsync(params);
       }
-      if(schema.body){
+      if (schema.body) {
         await schema.body.validateAsync(body);
       }
       next();
-    }catch (err){
+    } catch (err) {
       const validationsErrors = err as JoiRequestValidationError;
-      const errors = validationsErrors.details.map(error => ({
+      const errors = validationsErrors.details.map((error) => ({
         message: error.message,
         field: error.context.key,
       }));
-
       res.status(400).send(errors);
     }
   };

@@ -7,7 +7,7 @@ import { IUser } from '../user/user.interfaces';
 const ORDER_URL = '/api/orders';
 let user: IUser;
 
-fdescribe('Orders', function () {
+describe('Orders', function () {
   describe('Testing Create endpoint', function () {
     beforeEach(async () => {
       await truncateDB();
@@ -37,7 +37,7 @@ fdescribe('Orders', function () {
         payment_type: 'paypal',
       });
       expect(respones1.statusCode).toBe(400);
-      expect(respones1.text).toContain('Something went wrong');
+      expect(respones1.text).toContain('is required');
     });
   });
 
@@ -119,7 +119,7 @@ fdescribe('Orders', function () {
       user = userRes ? userRes[0] : {};
     });
 
-    it('should return all orders', async function () {
+    it('should update the order with id', async function () {
       const respones1 = await supertest(app).post(ORDER_URL).send({
         customer_id: user.id,
         total: 22,
@@ -129,8 +129,8 @@ fdescribe('Orders', function () {
       expect(respones1.statusCode).toBe(201);
 
       const order2 = JSON.parse(respones1.text).data;
-
       const res = await supertest(app).patch(`${ORDER_URL}/${order2.id}`).send({ payment_type: 'Master Card' });
+
       expect(res.statusCode).toBe(200);
       expect(JSON.parse(res.text).data).toEqual({
         id: order2.id,
@@ -168,6 +168,43 @@ fdescribe('Orders', function () {
 
       const res = await supertest(app).delete(`${ORDER_URL}/${order2.id}`);
       expect(res.statusCode).toBe(200);
+    });
+  });
+
+  describe('Testing addProduct endpoint', function () {
+    beforeEach(async () => {
+      await truncateDB();
+      const userRes = await Common.dbInsert('users', {
+        firstname: 'test',
+        lastname: 'test',
+        email: 'test@test.com',
+        password: 'password123',
+      });
+      user = userRes ? userRes[0] : {};
+    });
+
+    it('should add product ', async function () {
+      const respones1 = await supertest(app).post(ORDER_URL).send({
+        customer_id: user.id,
+        total: 22,
+        order_status: 'pending',
+        payment_type: 'paypal',
+      });
+      expect(respones1.statusCode).toBe(201);
+
+      const respones2 = await supertest(app).post('/api/products').send({
+        title: 'test product',
+        summary: 'nice test product',
+        price: 22.4,
+        image_url: 'example.com',
+      });
+      expect(respones1.statusCode).toBe(201);
+
+      const order = JSON.parse(respones1.text).data;
+      const product = JSON.parse(respones2.text).data;
+
+      const res = await supertest(app).post(`${ORDER_URL}/${order.id}/products/${product.id}`).send({ quantity: 22 });
+      expect(res.statusCode).toBe(201);
     });
   });
 });

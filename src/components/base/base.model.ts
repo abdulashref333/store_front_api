@@ -27,8 +27,11 @@ export abstract class BaseModelRepository<T> implements IBaseRepository<T> {
     }
     return null;
   }
-  // TODO:
   async createMany(item: Omit<T, 'id'>[]): Promise<T[]> {
+    const result = await Common.dbInsertMany(this.tableName, item);
+    if (result && result.length) {
+      return result;
+    }
     return [] as T[];
   }
   async update(conditions: Partial<T>, item: Partial<T>): Promise<T | null> {

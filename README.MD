@@ -12,7 +12,7 @@
 
 # File Structure
 
-![GitHub Logo](_readme_img/file_structure.png)
+![file_structure](file_structure.png)
 
 # Environment Variables
 
@@ -53,3 +53,5 @@ GRANT ALL PRIVILEGES ON DATABASE database_name TO username;
 ```
 npm i -g db-migrate
 ```
+
+### Please look at REQUIRMENT.md file to see the API routes.

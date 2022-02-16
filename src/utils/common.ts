@@ -54,6 +54,29 @@ class Common {
     }
   }
   // Any is used here because we can't determine the object structure ahead
+  // as this is used for inserting different models
+  static async dbInsertMany(table: string, obj: any[]) {
+    try {
+      const cn = await Client.connect();
+      const { rows } = await cn.query(
+        `
+          INSERT INTO ${table} (${Object.keys(obj[0])
+          .map((k) => k)
+          .join(', ')})
+          VALUES ${obj.map((object) => {
+            return `(${Object.values(object)
+              .map((k) => `'${k}'`)
+              .join(', ')})`;
+          })} RETURNING *;
+        `,
+      );
+      cn.release();
+      return Array.from(rows);
+    } catch (error) {
+      Logger.error('DB ERROR: ', error);
+    }
+  }
+  // Any is used here because we can't determine the object structure ahead
   // as this is used for updating different models
   static async dbUpdate(table: string, conditions: any, data: any) {
     try {
