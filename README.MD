@@ -53,5 +53,10 @@ GRANT ALL PRIVILEGES ON DATABASE database_name TO username;
 ```
 npm i -g db-migrate
 ```
+# How to run 
+- start the app:&nbsp;&nbsp; ``` npm start ```
+- run the test:&nbsp;&nbsp; ```  npm run test ```
 
+
+&nbsp;
 ### Please look at REQUIRMENT.md file to see the API routes.
