@@ -24,6 +24,8 @@ http://localhost
 |       /api/orders             |  POST  |     Add new order             |{customer_id:number, total: number, order_status: string, payment_type: string}
 |       /api/orders/:id         | PATCH  |      Update Order             |
 |       /api/orders/:id         | DELETE |      Delete Order             |
+|   /api/orders/products        | POST   |   add products to order       |
+|     /api/orders/products/:pid | POST   |   add product to order        |
 
 &nbsp;
 
