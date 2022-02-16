@@ -89,8 +89,10 @@ http://localhost:3000/api/
 |     /api/orders/products/:pid | POST   |   add product to order        |{quantity: number}
 
 &nbsp;
-### /api/users/:id  or /api/users/me 
+### /api/users/:id  or /api/users/me and all orders endpoints 
 - You should provide a Bearer token in authorization header.
+
+![file_structure](authorization.png)
 
 &nbsp;
 ### Please look at REQUIRMENT.md file to see the API routes.

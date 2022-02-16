@@ -7,7 +7,7 @@ import { IUser } from '../user/user.interfaces';
 const ORDER_URL = '/api/orders';
 let user: IUser;
 let token: string = 'Bearer ';
-fdescribe('Orders', function () {
+describe('Orders', function () {
   beforeAll(async () => {
     await truncateDB();
     const resp = await supertest(app).post('/api/users').send({
@@ -16,12 +16,11 @@ fdescribe('Orders', function () {
       email: 'test100@test.com',
       password: 'password123',
     });
-    expect(resp.statusCode).toBe(201);
     user = resp.body.data.user;
     token += resp.body.data.token;
   });
   describe('Testing Create endpoint', function () {
-    it('should create an order', async function () {
+    it('should create an order', async (done) => {
       const respones1 = await supertest(app).post(ORDER_URL).set('authorization', token).send({
         customer_id: user.id,
         total: 22,
@@ -29,9 +28,10 @@ fdescribe('Orders', function () {
         payment_type: 'paypal',
       });
       expect(respones1.statusCode).toBe(201);
+      done();
     });
 
-    it('should return an error', async function () {
+    it('should return an error', async (done) => {
       const respones1 = await supertest(app).post(ORDER_URL).set('authorization', token).send({
         customer_id: user.id,
         order_status: 'pending',
@@ -39,11 +39,12 @@ fdescribe('Orders', function () {
       });
       expect(respones1.statusCode).toBe(400);
       expect(respones1.text).toContain('is required');
+      done();
     });
   });
 
   describe('Testing getOrderById endpoint', function () {
-    it('should return an order with id', async function () {
+    it('should return an order with id', async (done) => {
       const respones1 = await supertest(app).post(ORDER_URL).set('authorization', token).send({
         customer_id: user.id,
         total: 22,
@@ -56,6 +57,7 @@ fdescribe('Orders', function () {
       const result = await supertest(app).get(`${ORDER_URL}/${order.id}`).set('authorization', token);
       expect(result.statusCode).toBe(200);
       expect(result.body.data).toEqual(order);
+      done();
     });
   });
 
@@ -63,7 +65,7 @@ fdescribe('Orders', function () {
     beforeEach(async () => {
       await truncateDB('orders');
     });
-    it('should return all orders', async function () {
+    it('should return all orders', async (done) => {
       const respones1 = await supertest(app).post(ORDER_URL).set('authorization', token).send({
         customer_id: user.id,
         total: 22,
@@ -87,6 +89,7 @@ fdescribe('Orders', function () {
 
       expect(result.statusCode).toBe(200);
       expect(result.body.data);
+      done();
     });
   });
 
@@ -95,7 +98,7 @@ fdescribe('Orders', function () {
       await truncateDB('orders');
     });
 
-    it('should update the order with id', async function () {
+    it('should update the order with id', async (done) => {
       const respones1 = await supertest(app).post(ORDER_URL).set('authorization', token).send({
         customer_id: user.id,
         total: 22,
@@ -119,6 +122,7 @@ fdescribe('Orders', function () {
         payment_type: 'Master Card',
         created_at: order2.created_at,
       });
+      done();
     });
   });
 
@@ -127,7 +131,7 @@ fdescribe('Orders', function () {
       await truncateDB('orders');
     });
 
-    it('should delete the order with id', async function () {
+    it('should delete the order with id', async (done) => {
       const respones1 = await supertest(app).post(ORDER_URL).set('authorization', token).send({
         customer_id: user.id,
         total: 22,
@@ -140,6 +144,7 @@ fdescribe('Orders', function () {
 
       const res = await supertest(app).delete(`${ORDER_URL}/${order2.id}`).set('authorization', token);
       expect(res.statusCode).toBe(200);
+      done();
     });
   });
 
@@ -148,7 +153,7 @@ fdescribe('Orders', function () {
       await truncateDB('orders');
     });
 
-    it('should add product ', async function () {
+    it('should add product ', async (done) => {
       const respones1 = await supertest(app).post(ORDER_URL).set('authorization', token).send({
         customer_id: user.id,
         total: 22,
@@ -173,6 +178,7 @@ fdescribe('Orders', function () {
         .set('authorization', token)
         .send({ quantity: 22 });
       expect(res.statusCode).toBe(201);
+      done();
     });
   });
 
@@ -181,7 +187,7 @@ fdescribe('Orders', function () {
       await truncateDB('orders');
     });
 
-    it('should add products ', async function () {
+    it('should add products ', async (done) => {
       const respones1 = await supertest(app).post(ORDER_URL).set('authorization', token).send({
         customer_id: user.id,
         total: 22,
@@ -219,6 +225,7 @@ fdescribe('Orders', function () {
           ],
         });
       expect(res.statusCode).toBe(201);
+      done();
     });
   });
 });

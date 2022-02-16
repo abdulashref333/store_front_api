@@ -1,16 +1,19 @@
 import app from '../../../app';
 import supertest from 'supertest';
 import { truncateDB } from '../../../spec/utils';
-import { JWT } from '../../utils/jwt';
 
 describe('[E2E] User', function () {
+  beforeAll(async (done) => {
+    await truncateDB();
+    done();
+  });
   describe('Testing the signup endpoint', function () {
-    beforeEach(async () => {
+    beforeEach(async (done) => {
       await truncateDB();
+      done();
     });
-
     // Success scenarios
-    it('creates an account', async function () {
+    it('creates an account', async (done) => {
       // status code should be 201 `Created`
       const response = await supertest(app).post('/api/users').send({
         firstname: 'test',
@@ -19,10 +22,11 @@ describe('[E2E] User', function () {
         password: '12345678',
       });
       expect(response.statusCode).toBe(201);
-    });
+      done();
+    }, 10000);
 
     // Failure scenarios
-    it('returns 400 if an account existed with the same email address', async function () {
+    it('returns 400 if an account existed with the same email address', async (done) => {
       // status code should be 201 `Created`
       const createUser1Response = await supertest(app).post('/api/users').send({
         firstname: 'test',
@@ -40,14 +44,16 @@ describe('[E2E] User', function () {
         password: '12345678',
       });
       expect(createUser2Response.statusCode).toBe(400);
-    });
+      done();
+    }, 10000);
   });
   describe('Testing the me endpoint ', function () {
-    beforeEach(async () => {
+    beforeEach(async (done) => {
       await truncateDB();
+      done();
     });
     // Success scenarios
-    it('should responed with the profile data', async function () {
+    it('should responed with the profile data', async (done) => {
       // status code should be 201 `Created`
       const createUser1Response = await supertest(app).post('/api/users').send({
         firstname: 'test',
@@ -69,10 +75,11 @@ describe('[E2E] User', function () {
           password: '12345678',
         });
       expect(createUser2Response.statusCode).toBe(200);
+      done();
     });
 
     // Faluire story
-    it('should responed with 401 ', async function () {
+    it('should responed with 401 ', async (done) => {
       const createUser2Response = await supertest(app).get('/api/users/me').send({
         firstname: 'test',
         lastname: 'test',
@@ -80,14 +87,16 @@ describe('[E2E] User', function () {
         password: '12345678',
       });
       expect(createUser2Response.statusCode).toBe(401);
+      done();
     });
   });
   describe('Testing the getUser endpoint', function () {
-    beforeEach(async () => {
+    beforeEach(async (done) => {
       await truncateDB();
+      done();
     });
     // Success scenarios
-    it('should return the created user', async function () {
+    it('should return the created user', async (done) => {
       // status code should be 201 `Created`
       const response1 = await supertest(app).post('/api/users').send({
         firstname: 'test',
@@ -106,16 +115,18 @@ describe('[E2E] User', function () {
       const user2 = JSON.parse(response2.text).data.user;
 
       expect(user2).toEqual(data.user);
+      done();
     });
   });
   describe('Testing Login endpoint', function () {
-    beforeEach(async () => {
+    beforeEach(async (done) => {
       await truncateDB();
+      done();
     });
     const LOGIN_URL = '/api/users/login';
     // Success scenarios
 
-    it('should successed in login', async function () {
+    it('should successed in login', async (done) => {
       const respons1 = await supertest(app).post('/api/users').send({
         firstname: 'test',
         lastname: 'test',
@@ -131,11 +142,12 @@ describe('[E2E] User', function () {
       expect(respons2.statusCode).toBe(200);
       expect(respons2.text).toContain('user');
       expect(respons2.text).toContain('token');
+      done();
     });
 
     // Failuer scenarios
 
-    it('should fail with error pass or email', async function () {
+    it('should fail with error pass or email', async (done) => {
       const respons1 = await supertest(app).post('/api/users').send({
         firstname: 'test',
         lastname: 'test',
@@ -159,6 +171,7 @@ describe('[E2E] User', function () {
       });
       expect(respons3.statusCode).toBe(400);
       expect(respons3.text).toContain('Invalid Credentials!');
+      done();
     });
 
     // it('should fail without email or password', async function () {
