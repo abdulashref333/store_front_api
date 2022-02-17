@@ -9,7 +9,10 @@
 - Typescript
 - PostgreSQL
 - db-migrate(tool) !important for doing migration stuff.
+## Requirments
 
+1. [Node & NPM ⬇️](https://nodejs.org/en/) - (node v16), (npm v8)
+2. [PostgreSQL ⬇️](https://www.postgresql.org/download/) - (v14)
 # File Structure
 
 ![file_structure](file_structure.png)
@@ -33,26 +36,63 @@ JWT_KEY=jsonwebtokensecret22
 EXTRA_PASSWORD=22endof@year
 ```
 # DB Setup
-please note that this setup for linux users.
-```
-/* open your terminal */
+1. first connect to psql  
+- **Ubuntu**
+```bash
 sudo -u postgres psql
-
-/* 
-  - you need to creat two databases one for dev and another for test
-  - follow the commands below to do that.
-*/
-
-CREATE USER username WITH PASSWORD 'password123';
-CREATE DATABASE database_name;
-\c database_name
-GRANT ALL PRIVILEGES ON DATABASE database_name TO username;
 ```
+- **windows**
+```bash
+psql -U postgres
+```
+2. create the database
+
+- **developement db**
+```
+// .
+CREATE USER admin_user WITH PASSWORD 'password123';
+CREATE DATABASE store_front_api_dev;
+\c store_front_api_dev
+GRANT ALL PRIVILEGES ON DATABASE store_front_api_dev TO admin_user;
+```
+- **testing db**
+```
+CREATE USER test_admin_user WITH PASSWORD 'password123';
+CREATE DATABASE store_front_test_api;
+GRANT ALL PRIVILEGES ON DATABASE store_front_test_api TO test_admin_user;
+
+```
+
+3. setup database.json file (incase you created the db using the commands upove use the same json below.)
+```
+{
+  "dev": {
+    "driver": "pg",
+    "host": "127.0.0.1",
+    "database": "store_front_api_dev",
+    "user": "admin_user",
+    "password": "password123"
+  },
+  "test": {
+    "driver": "pg",
+    "host": "127.0.0.1",
+    "database": "store_front_test_api",
+    "user": "test_admin_user",
+    "password": "password123"
+  }
+}
+```
+4. db-migrate .
+    - To install db-migrate 
+    ```
+    npm i -g db-migrate
+    ```
+    - after installaion run 
+    ```
+    db-migrate up
+    ```
+
 &nbsp;
-### Install db-migrate gloabally.
-```
-npm i -g db-migrate
-```
 # How to run 
 - start the app:&nbsp;&nbsp; ``` npm start ```
 - run the test:&nbsp;&nbsp; ```  npm run test ```
@@ -63,7 +103,7 @@ npm i -g db-migrate
 ```Base URL
 http://localhost:3000/api/
 ```
-
+- **please note that the body should be send in *JSON* formate**
 &nbsp;
 
 |            Routes             | Method |          Description          |        Schema                    |
@@ -76,7 +116,7 @@ http://localhost:3000/api/
 |                               | Products  
 |         /api/products         |  GET   |         Get Products          |
 |      /api/products/:id        |  GET   |    Get Individual product     |
-|     /api/product/:id          | DELETE |       Delete A Product        |
+|     /api/products/:id          | DELETE |       Delete A Product        |
 |      /api/products            |  POST  |       Insert A Product        |{price: number, title: string, summary:string, image_url:string}|
 |      /api/products/:id        | PATCH  |        Update Product         | it could be the same fields as post request or less
 |                               | Orders  
