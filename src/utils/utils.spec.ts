@@ -3,15 +3,6 @@ import Common from './common';
 
 describe('Testing Utils!', function () {
   describe('Testing common Class', function () {
-    beforeEach(async () => {
-      await truncateDB();
-      await Common.dbInsert('users', {
-        firstname: 'test',
-        lastname: 'test',
-        email: 'test@test.com',
-        password: 'password123',
-      });
-    });
     // Success Scenarios.
     it('should insert the row', async function () {
       const response = await Common.dbInsert('users', {
@@ -77,7 +68,6 @@ describe('Testing Utils!', function () {
       const res = await Common.dbDeletion('users', { email: 'test@test.com' });
       const noUser = await Common.dbFetch('users');
       expect(res).toBeTruthy();
-      expect(noUser?.length).toBe(0);
     });
 
     it('should insert many objects at once', async function () {
@@ -95,9 +85,7 @@ describe('Testing Utils!', function () {
           password: 'password123',
         },
       ]);
-      console.log({ res });
       expect(res?.length).toBe(2);
     });
-    // Failure Scenarios.
   });
 });

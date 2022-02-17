@@ -20,10 +20,6 @@ describe('Product', function () {
     done();
   });
   describe('Testing getAllProducts endpoint', function () {
-    beforeEach(async () => {
-      await truncateDB('products');
-    });
-
     //Success Scenarios
     it('should return all products array', async (done) => {
       const respones1 = await supertest(app).post('/api/products').set('authorization', token).send({
@@ -54,10 +50,6 @@ describe('Product', function () {
     });
   });
   describe('Testing getProductById endpoint', function () {
-    beforeEach(async () => {
-      await truncateDB('products');
-    });
-
     //Success Scenarios
     it('should return the product', async (done) => {
       const respones1 = await supertest(app).post('/api/products').set('authorization', token).send({
