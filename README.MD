@@ -13,9 +13,6 @@
 
 1. [Node & NPM ⬇️](https://nodejs.org/en/) - (node v16), (npm v8)
 2. [PostgreSQL ⬇️](https://www.postgresql.org/download/) - (v14)
-# File Structure
-
-![file_structure](file_structure.png)
 
 # Environment Variables
 

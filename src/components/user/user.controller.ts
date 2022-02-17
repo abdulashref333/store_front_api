@@ -1,14 +1,12 @@
 import { Request, Response } from 'express';
 import { ICreateUser, IUserSerialized } from './user.interfaces';
-import UserStore from './user.model';
+import User from './user.model';
 import { CustomResponse } from '../../utils/custome-response';
 import { NotFoundError } from '../../errors/not-found-error';
 import { JWT } from '../../utils/jwt';
 import { BadRequestError } from '../../errors/bad-request-error';
 import { Password } from '../../utils/password';
 import { emit } from 'process';
-
-const User = new UserStore('users');
 
 class UserController {
   async getUser(req: Request, res: Response): Promise<void> {

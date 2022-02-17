@@ -4,6 +4,7 @@ import { CustomResponse } from '../../utils/custome-response';
 import { ICreateOrder, ICreateOrderProduct } from './order.interfaces';
 import Order from './order.model';
 import OrderProdcut from './order_product.model';
+import User from '../user/user.model';
 class OrderController {
   async getAllOrders(req: Request, res: Response): Promise<void> {
     const result = await Order.findAll();
@@ -25,6 +26,10 @@ class OrderController {
   async createOrder(req: Request, res: Response): Promise<void> {
     const { customer_id, total, billing_address, order_status, payment_type } = req.body;
 
+    const customer = await User.findOneById(customer_id);
+    if (!customer) {
+      return CustomResponse.sendWithError(res, 'Customer Not Found!');
+    }
     const orderData: ICreateOrder = { customer_id, total, order_status, payment_type };
     const order = await Order.createOrder(orderData);
 
@@ -35,6 +40,13 @@ class OrderController {
     }
   }
   async updateOrder(req: Request, res: Response): Promise<void> {
+    const { customer_id } = req.body;
+    if (customer_id) {
+      const customer = await User.findOneById(customer_id);
+      if (!customer) {
+        return CustomResponse.sendWithError(res, 'Customer Not Found!');
+      }
+    }
     const result = await Order.update({ id: parseInt(req.params.id) }, req.body);
     if (result) {
       CustomResponse.send(res, result);
@@ -44,6 +56,9 @@ class OrderController {
   }
   async deleteOrder(req: Request, res: Response): Promise<void> {
     const result = await Order.delete({ id: parseInt(req.params.id) });
+    if (!result) {
+      return CustomResponse.sendWithError(res, 'Order Not Found!');
+    }
     CustomResponse.send(res, result);
   }
 

@@ -25,7 +25,19 @@ export const addOrderValidation: IValidationSchema = {
     payment_type: Joi.string().required(),
   }).required(),
 };
-
+export const updateOrderValidation: IValidationSchema = {
+  params: Joi.object({
+    id: Joi.number().required(),
+  }).required(),
+  body: Joi.object({
+    customer_id: Joi.number().min(1),
+    total: Joi.number().min(0),
+    order_status: Joi.string().trim().min(1),
+    payment_type: Joi.string().trim().min(1),
+  })
+    .min(1)
+    .required(),
+};
 export const addOrderProductsValidation: IValidationSchema = {
   params: Joi.object({
     id: Joi.number().required(),

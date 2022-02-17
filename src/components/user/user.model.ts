@@ -15,4 +15,4 @@ class User extends BaseModelRepository<IUser> {
   }
 }
 
-export default User;
+export default new User('users');

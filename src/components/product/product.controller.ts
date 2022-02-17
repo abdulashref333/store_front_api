@@ -36,15 +36,19 @@ class ProductController {
     }
   }
   async updateProduct(req: Request, res: Response): Promise<void> {
+    console.log(req.body);
     const result = await Product.update({ id: parseInt(req.params.id) }, req.body);
     if (result) {
       CustomResponse.send(res, result);
     } else {
-      CustomResponse.sendWithError(res, 'Order Not Found');
+      CustomResponse.sendWithError(res, 'Product Not Found');
     }
   }
   async deleteProduct(req: Request, res: Response): Promise<void> {
     const result = await Product.delete({ id: parseInt(req.params.id) });
+    if (!result) {
+      return CustomResponse.sendWithError(res, 'Product Not Found!');
+    }
     CustomResponse.send(res, result);
   }
 }

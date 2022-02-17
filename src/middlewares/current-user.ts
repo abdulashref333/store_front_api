@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { IUser, IUserSerialized } from '../components/user/user.interfaces';
-import UserStore from '../components/user/user.model';
+import User from '../components/user/user.model';
 
 interface UserPayload {
   id: string;
@@ -16,7 +16,6 @@ declare global {
   }
 }
 
-const User = new UserStore('users');
 export const currentUser = async (req: Request, res: Response, next: NextFunction) => {
   if (!req.headers.authorization) {
     return next();

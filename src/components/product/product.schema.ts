@@ -14,3 +14,16 @@ export const addProductValidation: IValidationSchema = {
     image_url: Joi.string().required(),
   }).required(),
 };
+export const updateProductValidation: IValidationSchema = {
+  params: Joi.object({
+    id: Joi.number().required(),
+  }).required(),
+  body: Joi.object({
+    price: Joi.number(),
+    title: Joi.string(),
+    summary: Joi.string(),
+    image_url: Joi.string(),
+  })
+    .min(1)
+    .required(),
+};

@@ -26,6 +26,7 @@ export function validateRequest(schema: IValidationSchema) {
         message: error.message,
         field: error.context.key,
       }));
+      console.log('i am here.');
       Logger.error(errors);
       res.status(400).send(errors);
     }

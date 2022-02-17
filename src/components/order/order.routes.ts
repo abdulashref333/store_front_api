@@ -7,6 +7,7 @@ import {
   addProductValidation,
   addOrderValidation,
   addOrderProductsValidation,
+  updateOrderValidation,
 } from './order.schema';
 const orders = express.Router();
 
@@ -15,7 +16,7 @@ orders
   .get('/', OrderController.getAllOrders)
   .post('/', validateRequest(addOrderValidation), OrderController.createOrder)
   .get('/:id', validateRequest(getOrderValidation), OrderController.getOrderById)
-  .patch('/:id', validateRequest(getOrderValidation), OrderController.updateOrder)
+  .patch('/:id', validateRequest(updateOrderValidation), OrderController.updateOrder)
   .delete('/:id', validateRequest(getOrderValidation), OrderController.deleteOrder)
 
   // Products
