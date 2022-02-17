@@ -91,8 +91,9 @@ GRANT ALL PRIVILEGES ON DATABASE store_front_test_api TO test_admin_user;
 
 &nbsp;
 # How to run 
-- start the app:&nbsp;&nbsp; ``` npm start ```
-- run the test:&nbsp;&nbsp; ```  npm run test ```
+1. to install dependencies : &nbsp;&nbsp; ``` npm install ```
+2. to start the app :&nbsp;&nbsp; ``` npm start ```
+3. to run the test:&nbsp;&nbsp; ```  npm run test ```
 
 # API-ROUTES
 
@@ -126,11 +127,14 @@ http://localhost:3000/api/
 |     /api/orders/products/:pid | POST   |   add product to order        |{quantity: number}
 
 &nbsp;
-### Routes that need a token as shown below :  
+### Routes that need a token are listed below :  
 - /api/users/:id > (GET)
 - /api/users/me > (GET)
-- /api/product/:id > (DELETE - post - PATCH) methods 
-- All orders endpoints withe all methods > (POST - GET - PATCH - DELETE) 
+- /api/products/ > (POST) 
+- /api/products/:id > (DELETE - PATCH) 
+- All orders endpoints withe  > (POST - GET - PATCH - DELETE) 
+
+### TOKEN TYPE:  
 - You should provide a Bearer token in authorization header as shown below.
 
 ![file_structure](authorization.png)
