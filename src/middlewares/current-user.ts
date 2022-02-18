@@ -29,6 +29,11 @@ export const currentUser = async (req: Request, res: Response, next: NextFunctio
     return next();
   }
 
-  req.user = user;
+  // req.user = user;
+  // Defined with this method to not being defined.
+  Object.defineProperty(req, 'user', {
+    value: user,
+    writable: false,
+  });
   next();
 };

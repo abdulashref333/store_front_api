@@ -63,9 +63,9 @@ describe('[E2E] User', function () {
       .set('authorization', token)
       .expect((u) => {
         const user2 = u.body.data.user;
-        user2.password = user.password;
+        const copiedUser = { ...user2, password: user.password };
         expect(u.status).toBe(200);
-        expect(user2).toEqual(user);
+        expect(copiedUser).toEqual(user);
       });
   });
   // Success scenarios

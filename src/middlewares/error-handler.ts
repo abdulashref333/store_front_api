@@ -6,7 +6,7 @@ export const errorHandler = (err: Error, req: Request, res: Response, next: Next
   if (err instanceof CustomError) {
     return res.status(err.statusCode).send({ status: err.statusCode, errors: err.serializeErrors() });
   } // For any thrown errors in the application
-  Logger.error(err);
+  Logger.error(err.message);
 
   res.status(400).send({
     status: 400,
