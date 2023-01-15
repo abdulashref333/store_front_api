@@ -137,7 +137,7 @@ http://localhost:3000/api/
 ### TOKEN TYPE:  
 - You should provide a Bearer token in authorization header as shown below.
 
-![file_structure](authorization.png)
+![file_structure](/doc/authorization.png)
 
 &nbsp;
 ### Please look at REQUIRMENT.md file to see the API routes.
