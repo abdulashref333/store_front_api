@@ -1,0 +1,12 @@
+version: '3'
+services:
+  web-api:
+    image: web-api
+    container_name: web-api-container
+    build: .
+    volumes:
+      - ./src:/app/src:ro
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./.env
