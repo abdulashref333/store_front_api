@@ -1,6 +1,6 @@
-import app from './app';
-import { checkingEnvVariables } from './config/checking-env-variables';
-import Logger from './src/middlewares/logger';
+import app from '../app';
+import { checkingEnvVariables } from '../config/checking-env-variables';
+import Logger from './middlewares/logger';
 const port = process.env.PORT || 3000;
 
 const start = async () => {
