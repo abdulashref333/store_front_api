@@ -21,6 +21,9 @@ export const currentUser = async (req: Request, res: Response, next: NextFunctio
     return next();
   }
 
+  if (req.headers.authorization.split(' ')[0] !== 'Bearer') {
+    return next();
+  }
   const token = req.headers.authorization?.split(' ')[1];
   const userPayload = jwt.verify(token, process.env.JWT_KEY as string) as UserPayload;
 
@@ -30,7 +33,7 @@ export const currentUser = async (req: Request, res: Response, next: NextFunctio
   }
 
   // req.user = user;
-  // Defined with this method to not being defined.
+  // Defined with this method to be readonly property.
   Object.defineProperty(req, 'user', {
     value: user,
     writable: false,
