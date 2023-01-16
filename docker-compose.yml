@@ -10,3 +10,18 @@ services:
       - "3000:3000"
     env_file:
       - ./.env
+  postgres-db:
+    build: 
+      context: ./Docker
+      dockerfile: db.dockerfile
+    restart: always
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: admin_user
+      POSTGRES_PASSWORD: password123
+      # POSTGRES_DB: store_front_api_dev
+
+
+volumes:
+  db-data:
