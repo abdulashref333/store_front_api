@@ -13,8 +13,16 @@
 
 1. [Node & NPM ⬇️](https://nodejs.org/en/) - (node v16), (npm v8)
 2. [PostgreSQL ⬇️](https://www.postgresql.org/download/) - (v14)
+3. [Docker ⬇️](https://docs.docker.com/desktop/install/windows-install/) (optional)
 
-# Environment Variables
+# Run with Docker-compose
+```
+  1- docker-compose up --build -d // for building and starting the containers.
+  2- docker-compose down  // for stoping containers.
+```
+
+# Setup the project locally:
+## Environment Variables
 
 &nbsp;
 
@@ -32,7 +40,7 @@ JWT_KEY=jsonwebtokensecret22
 
 EXTRA_PASSWORD=22endof@year
 ```
-# DB Setup
+## DB Setup
 1. first connect to psql  
 - **Ubuntu**
 ```bash
@@ -90,7 +98,7 @@ GRANT ALL PRIVILEGES ON DATABASE store_front_test_api TO test_admin_user;
     ```
 
 &nbsp;
-# How to run 
+## How to run 
 1. to install dependencies : &nbsp;&nbsp; ``` npm install ```
 2. to start the app :&nbsp;&nbsp; ``` npm start ```
 3. to run the test:&nbsp;&nbsp; ```  npm run test ```
