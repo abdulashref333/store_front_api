@@ -4,10 +4,10 @@ import express, { Request, Response } from 'express';
 // without the need to use next() with every route
 require('express-async-errors');
 
-import { errorHandler } from './src/middlewares/error-handler';
-import apiRouter from './src/components/routes';
-import morganMiddleware from './src/middlewares/morgan';
-import { currentUser } from './src/middlewares/current-user';
+import { errorHandler } from './middlewares/error-handler';
+import apiRouter from './components/routes';
+import morganMiddleware from './middlewares/morgan';
+import { currentUser } from './middlewares/current-user';
 
 const app = express();
 app.use(express.json());

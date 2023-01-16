@@ -13,6 +13,10 @@ class User extends BaseModelRepository<IUser> {
   async createUser(obj: Omit<IUser, 'id' | 'created_at'>): Promise<IUser | null> {
     return await this.create(obj);
   }
+
+  async updateUser(id: number, obj: Omit<IUser, 'id' | 'created_at'>): Promise<IUser | null> {
+    return await this.update({ id }, obj);
+  }
 }
 
 export default new User('users');

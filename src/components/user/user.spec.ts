@@ -1,4 +1,4 @@
-import app from '../../../app';
+import app from '../../app';
 import supertest from 'supertest';
 import { truncateDB } from '../../../spec/utils';
 import { IUser } from './user.interfaces';

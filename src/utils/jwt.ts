@@ -10,6 +10,7 @@ export class JWT {
         email: user.email,
       },
       process.env.JWT_KEY!,
+      { expiresIn: '7d' },
     );
     return token;
   }

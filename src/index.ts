@@ -1,4 +1,4 @@
-import app from '../app';
+import app from './app';
 import { checkingEnvVariables } from '../config/checking-env-variables';
 import Logger from './middlewares/logger';
 const port = process.env.PORT || 3000;

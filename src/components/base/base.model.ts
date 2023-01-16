@@ -1,5 +1,4 @@
 import { IWriter, IReader } from './base.interfaces';
-import { Client } from 'pg';
 import Common from '../../utils/common';
 
 type IBaseRepository<T> = IReader<T> & IWriter<T>;
@@ -11,6 +10,7 @@ export abstract class BaseModelRepository<T> implements IBaseRepository<T> {
     const result = (await Common.dbFetch(this.tableName, item, select)) as T[];
     return result;
   }
+
   async findOne(item: Partial<T>, select?: string[]): Promise<T | null> {
     const result = await Common.dbFetch(this.tableName, item, select);
     if (result?.length) {
@@ -27,6 +27,7 @@ export abstract class BaseModelRepository<T> implements IBaseRepository<T> {
     }
     return null;
   }
+
   async createMany(items: Omit<T, 'id' | 'created_at'>[]): Promise<T[] | null> {
     const result = await Common.dbInsertMany(this.tableName, items);
     if (result && result.length) {
@@ -34,6 +35,7 @@ export abstract class BaseModelRepository<T> implements IBaseRepository<T> {
     }
     return null;
   }
+
   async update(conditions: Partial<T>, item: Partial<T>): Promise<T | null> {
     const result = await Common.dbUpdate(this.tableName, conditions, item);
     if (result) {
@@ -41,6 +43,7 @@ export abstract class BaseModelRepository<T> implements IBaseRepository<T> {
     }
     return null;
   }
+
   async delete(condition: Partial<T>): Promise<boolean> {
     const result = await Common.dbDeletion(this.tableName, condition);
     if (result) {

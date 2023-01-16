@@ -28,7 +28,9 @@ class UserController {
     }
     CustomResponse.send(res, { user: req.user });
   }
-  async getUsers(req: Request, res: Response) {}
+  async getUsers(req: Request, res: Response) {
+    return CustomResponse.send(res, { users: await User.findAll() });
+  }
 
   async signUp(req: Request, res: Response): Promise<void> {
     const { firstname, lastname, email, password } = req.body;
@@ -77,6 +79,15 @@ class UserController {
       CustomResponse.send(res, result, `Welcome Back, ${user.firstname}`);
     } else {
       return CustomResponse.sendWithError(res, 'Invalid Credentials!', 400);
+    }
+  }
+
+  async updateUser(req: Request, res: Response): Promise<void> {
+    const updateUser = await User.updateUser(parseInt(req.params.id as string), req.body);
+    if (updateUser) {
+      CustomResponse.send(res, { user: updateUser }, 'Updated Successfully', 200);
+    } else {
+      throw new Error('user not found');
     }
   }
 }
